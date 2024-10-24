@@ -16,7 +16,7 @@ PostgreSQL database
 
 ## Installation
 1 - Clone the repository:
-git clone https://github.com/yourusername/employee-management-system.git
+git clone "https://github.com/Liciaav/CMS-project"
 cd employee-management-system
 
 2 - Install dependencies:
