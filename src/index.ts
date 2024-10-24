@@ -1,6 +1,8 @@
 import express from 'express';
-import { pool, connectToDb } from './connection.js';
+import { pool, connectToDb } from './connection.ts';
+import inquirer from 'inquirer';
 await connectToDb();
+
 const PORT = process.env.PORT || 3001;
 const app = express();
 
@@ -20,9 +22,10 @@ async function addDepartment() {
 
     await db.query('INSERT INTO department (name) VALUES ($1)', [departmentName]);
     console.log(`Department "${departmentName}" added successfully.`);
-}
+};
 
 //add a role
+const addRole: ()
 async function addRole() {
     const { roleTitle, salary, departmentId } = await inquirer.prompt([
         {

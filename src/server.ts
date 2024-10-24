@@ -1,5 +1,5 @@
 import express from 'express';
-import { pool, connectToDb } from './connection.js';
+import { pool, connectToDb } from './connection.ts';
 await connectToDb();
 const PORT = process.env.PORT || 3001;
 const app = express();
