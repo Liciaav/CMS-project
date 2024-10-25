@@ -1,0 +1,23 @@
+{
+  "name": "meu-projeto",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "build": "echo \"Build script not defined\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^x.x.x",
+    "pg": "^x.x.x",
+    "inquirer": "^x.x.x"
+  },
+  "devDependencies": {
+    "nodemon": "^x.x.x"
+  }
+}
