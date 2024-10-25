@@ -1,17 +1,11 @@
-import express from 'express';
-import { pool, connectToDb } from './connection.ts';
+import { pool, connectToDb } from './connectio.js';
 import inquirer from 'inquirer';
 await connectToDb();
 
-const PORT = process.env.PORT || 3001;
-const app = express();
-
-// Express middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-
+export default class DB {
+    constructor(){}
 // add a department
-async function addDepartment() {
+async addDepartment() {
     const { departmentName } = await inquirer.prompt([
         {
             type: 'input',
@@ -20,13 +14,12 @@ async function addDepartment() {
         }
     ]);
 
-    await db.query('INSERT INTO department (name) VALUES ($1)', [departmentName]);
+    await pool.query('INSERT INTO department (name) VALUES ($1)', [departmentName]);
     console.log(`Department "${departmentName}" added successfully.`);
 };
 
 //add a role
-const addRole: ()
-async function addRole() {
+async addRole() {
     const { roleTitle, salary, departmentId } = await inquirer.prompt([
         {
             type: 'input',
@@ -45,12 +38,12 @@ async function addRole() {
         }
     ]);
 
-    await db.query('INSERT INTO role (title, salary, department_id) VALUES ($1, $2, $3)', [roleTitle, salary, departmentId]);
+    await pool.query('INSERT INTO role (title, salary, department_id) VALUES ($1, $2, $3)', [roleTitle, salary, departmentId]);
     console.log(`Role "${roleTitle}" added successfully.`);
 }
 
 //add a employee
-async function addEmployee() {
+async addEmployee() {
     const { firstName, lastName, roleId, managerId } = await inquirer.prompt([
         {
             type: 'input',
@@ -75,13 +68,13 @@ async function addEmployee() {
         }
     ]);
 
-    await db.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)', [firstName, lastName, roleId, managerId]);
+    await pool.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)', [firstName, lastName, roleId, managerId]);
     console.log(`Employee "${firstName} ${lastName}" added successfully.`);
 }
 
 // update employee role
-async function updateEmployeeRole() {
-    const employees = await db.query('SELECT id, first_name, last_name FROM employee');
+async updateEmployeeRole() {
+    const employees = await pool.query('SELECT id, first_name, last_name FROM employee');
     const employeeChoices = employees.rows.map(emp => ({
         name: `${emp.first_name} ${emp.last_name}`,
         value: emp.id
@@ -101,6 +94,10 @@ async function updateEmployeeRole() {
         }
     ]);
 
-    await db.query('UPDATE employee SET role_id = $1 WHERE id = $2', [newRoleId, employeeId]);
+    await pool.query('UPDATE employee SET role_id = $1 WHERE id = $2', [newRoleId, employeeId]);
     console.log(`Employee's role updated successfully.`);
 }
+};
+
+
+

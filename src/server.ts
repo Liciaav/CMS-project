@@ -1,6 +1,5 @@
 import express from 'express';
-import { pool, connectToDb } from './connection.ts';
-await connectToDb();
+import db from './db/index.js'
 const PORT = process.env.PORT || 3001;
 const app = express();
 
@@ -8,25 +7,48 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// Hardcoded query: DELETE FROM course_names WHERE id = 3;
-pool.query(`DELETE FROM course_names WHERE id = $1`, [3], (err, result) => {
-    if (err) {
-        console.log(err);
-    }
-    else {
-        console.log(`${result.rowCount} row(s) deleted!`);
-    }
-});
+const promptUser = async () => {
+    const { action } = await inquirer.prompt([
+        {
+            type: 'list',
+            name: 'action',
+            message: 'What would you like to do?',
+            choices: [
+                'Add Department',
+                'Add Role',
+                'Add Employee',
+                'Update Employee Role',
+                'Exit'
+            ]
+        }
+    ]);
 
-// Query database
-pool.query('SELECT * FROM course_names', (err, result) => {
-    if (err) {
-        console.log(err);
+    const dbInstance = new db();
+
+    switch (action) {
+        case 'Add Department':
+            await dbInstance.addDepartment();
+            break;
+        case 'Add Role':
+            await dbInstance.addRole();
+            break;
+        case 'Add Employee':
+            await dbInstance.addEmployee();
+            break;
+        case 'Update Employee Role':
+            await dbInstance.updateEmployeeRole();
+            break;
+        case 'Exit':
+            console.log('Exiting...');
+            process.exit();
     }
-    else if (result) {
-        console.log(result.rows);
-    }
-});
+
+    // Prompt user again after action is completed
+    promptUser();
+};
+
+// Start the prompt
+promptUser();
 
 // Default response for any other request (Not Found)
 app.use((_req, res) => {
