@@ -1,4 +1,5 @@
 import express from 'express';
+import inquirer from 'inquirer';
 import db from './db/index.js'
 const PORT = process.env.PORT || 3001;
 const app = express();

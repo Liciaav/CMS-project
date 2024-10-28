@@ -44,28 +44,27 @@ async addRole() {
 
 //add a employee
 async addEmployee() {
-    const { firstName, lastName, roleId, managerId } = await inquirer.prompt([
-        {
-            type: 'input',
-            name: 'firstName',
-            message: "Enter the employee's first name:"
-        },
-        {
-            type: 'input',
-            name: 'lastName',
-            message: "Enter the employee's last name:"
-        },
-        {
-            type: 'number',
-            name: 'roleId',
-            message: "Enter the employee's role ID:"
-        },
-        {
-            type: 'number',
-            name: 'managerId',
-            message: "Enter the employee's manager ID (or leave blank if none):",
-            default: null
-        }
+   const { firstName, lastName, roleId, managerId } = await inquirer.prompt([
+    {
+        type: 'input',
+        name: 'firstName',
+        message: "Enter the employee's first name:"
+    },
+    {
+        type: 'input',
+        name: 'lastName',
+        message: "Enter the employee's last name:"
+    },
+    {
+        type: 'number',
+        name: 'roleId',
+        message: "Enter the employee's role ID:"
+    },
+    {
+        type: 'number',
+        name: 'managerId',
+        message: "Enter the employee's manager ID (or leave blank if none):",
+    }
     ]);
 
     await pool.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)', [firstName, lastName, roleId, managerId]);
